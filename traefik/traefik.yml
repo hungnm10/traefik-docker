@@ -1,0 +1,37 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+entryPoints:
+  web:
+    address: ":80"
+    transport:
+      respondingTimeouts:
+        idleTimeout: 600s
+  websecure:
+    address: ":443"
+    transport:
+      respondingTimeouts:
+        idleTimeout: 600s
+
+providers:
+  docker:
+    exposedByDefault: false
+    watch: true
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: info@chainz.tech
+      storage: /acme.json
+      httpChallenge:
+        entryPoint: web
+
+log:
+  level: DEBUG
+
+accessLog: {}   # để thấy rõ request nào tới
+
